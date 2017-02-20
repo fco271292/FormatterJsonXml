@@ -31,7 +31,7 @@ class FormatterJSON {
 		String bodyJSON = ""
 		Integer indexOfParenthesis = inputJSON.toString().indexOf("{")
 		Integer lastIndexOfParenthesis = inputJSON.toString().indexOf("}")
-		bodyJSON = inputJSON.toString().subSequence(indexOfParenthesis,inputJSON.size())
+		bodyJSON = inputJSON.toString().subSequence(indexOfParenthesis,inputJSON.toString().length())
 		//println "Salida body ${bodyJSON}"
 		bodyJSON
 	}
