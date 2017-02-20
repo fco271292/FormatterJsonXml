@@ -17,17 +17,17 @@ class FormatterJSON {
 		println "Encontro ${firtsParenthesis}"
 	}
 	
-	String getHeaderJSON(List<String> inputJSON){
+	String getHeaderJSON(String inputJSON){
 		
 		String headerJSON = ""
-		headerJSON = inputJSON.toString().takeWhile {character->
+		headerJSON = inputJSON.takeWhile {character->
 			character != "{"			
 		}
 		
 		headerJSON
 	}
 	
-	String getbodyJSON(List<String> inputJSON){
+	String getbodyJSON(String inputJSON){
 		String bodyJSON = ""
 		Integer indexOfParenthesis = inputJSON.toString().indexOf("{")
 		Integer lastIndexOfParenthesis = inputJSON.toString().indexOf("}")
@@ -35,4 +35,5 @@ class FormatterJSON {
 		//println "Salida body ${bodyJSON}"
 		bodyJSON
 	}
+	
 }
