@@ -20,7 +20,7 @@ class FileManager {
 		fileJSON << jsonCommand.header
 		fileJSON << "\n"
 		fileJSON << new FormatterJSON().formatterJSONPretty(jsonCommand.body)
-		
+		//fileJSON << jsonCommand.body
 	}
 	
 	Map<String,String> generateFileName(String filePath){

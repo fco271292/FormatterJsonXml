@@ -19,10 +19,14 @@ class App {
 		String headerJSON = formatterJSON.getHeaderJSON(contentFileString)
 		String bodyJSON = formatterJSON.getbodyJSON(contentFileString)
 		def bodyJSONAdjust = formatterJSON.adjustJSON(bodyJSON)
+		def bodyJSONWithQuotes = formatterJSON.addQuotes(bodyJSONAdjust)
+		def out = formatterJSON.formatterJSONPretty(bodyJSONWithQuotes)
+		println "BODY ${out}"
+		//def outJSON = formatterJSON.outJSON(bodyJSONAdjust)
 		//println "Header ${headerJSON} \n Body ${bodyJSON}"
-		def jsonCommand = new JSONCommand(header: headerJSON,body: bodyJSONAdjust )
-		//println "BODY ${bodyJSONAdjust}"
-		new FileManager().createFile(pathFile,jsonCommand)
+		//def jsonCommand = new JSONCommand(header: headerJSON,body: outJSON )
+		//println "BODY ${outJSON}"
+		//new FileManager().createFile(pathFile,jsonCommand)
 		println  "FIN..."
 		
 	}
