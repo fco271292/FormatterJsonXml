@@ -18,13 +18,12 @@ class App {
 		String contentFileString = contentFile.join("\n")
 		String headerJSON = formatterJSON.getHeaderJSON(contentFileString)
 		String bodyJSON = formatterJSON.getbodyJSON(contentFileString)
-		def bodyJSONAdjust = formatterJSON.adjustJSON(bodyJSON)
-		def bodyJSONWithQuotes = formatterJSON.addQuotes(bodyJSONAdjust)
-		def out = formatterJSON.formatterJSONPretty(bodyJSONWithQuotes)
-		println "BODY ${out}"
-		//def outJSON = formatterJSON.outJSON(bodyJSONAdjust)
-		//println "Header ${headerJSON} \n Body ${bodyJSON}"
-		//def jsonCommand = new JSONCommand(header: headerJSON,body: outJSON )
+		
+		def adjustApostrophe = formatterJSON.adjustApostrophe(bodyJSON)
+		def removeDash = formatterJSON.removeDash(adjustApostrophe)
+		println "BODY ${removeDash}"
+		
+		//def jsonCommand = new JSONCommand(header: headerJSON,body: removeDash )
 		//println "BODY ${outJSON}"
 		//new FileManager().createFile(pathFile,jsonCommand)
 		println  "FIN..."
