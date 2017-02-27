@@ -29,30 +29,25 @@ class FormatterJSON {
 		
 	}
 	
-	String adjustJSON(String inputJSON){
+	String removeDash(String inputJSON){
 		String bodyJSON = inputJSON.replaceAll("-","")
 	}
 	
-	String addQuotes(String inputJSON){
+	def adjustApostrophe(String jsonInput){
+		
 		String outJSON = ""
-		inputJSON.eachLine{line->
-			if(line.endsWith(":") && !line.startsWith("\""))
-				line = "\"${line.split(":").join("")}\":"
-			else{
-				//print line
-				//println "_"*5
+		String pattern = /",$/
+		
+		jsonInput.eachLine {line->
+			if (line =~ pattern){
+				line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
 			}
+			else if(line.endsWith(":") && !line.startsWith("\""))
+				line = "\"${line.split(":").join("")}\":"
 			outJSON += line
 		}
 		outJSON
-	}
-	
-	def outJSON(String jsonInput){
-		def object = JsonOutput.toJson(jsonInput)
-		def json = object.replaceAll(~/\\n/,"")
-		println json
-		//println formatterJSONPretty(json)
-		//formatterJSONPretty(json)
+		
 	}
 	
 }
