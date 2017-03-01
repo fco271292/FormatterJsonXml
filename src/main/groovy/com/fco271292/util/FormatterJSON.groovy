@@ -37,13 +37,23 @@ class FormatterJSON {
 		
 		String outJSON = ""
 		String pattern = /",$/
-		
+		String patternApostrophe = /\w*=\"[^\"]/
+		String patternDoubleApostrophe = /\\"/
+
 		jsonInput.eachLine {line->
 			if (line =~ pattern){
-				line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
+				if(line.count("\"")>2 && line.count("\"")<10)
+					line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
 			}
 			else if(line.endsWith(":") && !line.startsWith("\""))
 				line = "\"${line.split(":").join("")}\":"
+			else if(line =~ patternApostrophe)
+				line = line.replaceAll("[^\"]\"","'")
+			if (line =~ patternDoubleApostrophe ){
+				line = line.replaceAll(patternDoubleApostrophe,"'")
+				line = line.replaceAll("\"\"","\"")
+				
+			}
 			outJSON += line
 		}
 		outJSON
