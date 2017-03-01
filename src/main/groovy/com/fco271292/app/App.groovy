@@ -23,9 +23,9 @@ class App {
 		def removeDash = formatterJSON.removeDash(adjustApostrophe)
 		println "BODY ${removeDash}"
 		
-		//def jsonCommand = new JSONCommand(header: headerJSON,body: removeDash )
-		//println "BODY ${outJSON}"
-		//new FileManager().createFile(pathFile,jsonCommand)
+		def jsonCommand = new JSONCommand(header: headerJSON,body: removeDash )
+		
+		new FileManager().createFile(pathFile,jsonCommand)
 		println  "FIN..."
 		
 	}
