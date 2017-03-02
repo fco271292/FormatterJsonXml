@@ -50,9 +50,7 @@ class FormatterJSON {
 			else if(line =~ patternApostrophe)
 				line = line.replaceAll("[^\"]\"","'")
 			if (line =~ patternDoubleApostrophe ){
-				line = line.replaceAll(patternDoubleApostrophe,"'")
-				line = line.replaceAll("\"\"","\"")
-				
+				line = line.replaceAll(patternDoubleApostrophe,"\"")				
 			}
 			outJSON += line
 		}
