@@ -4,6 +4,9 @@ import com.fco271292.command.JSONCommand
 import com.fco271292.util.FileManager
 import com.fco271292.util.FormatterJSON
 
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 class App {
 
 	static main(args) {
@@ -19,13 +22,24 @@ class App {
 		String headerJSON = formatterJSON.getHeaderJSON(contentFileString)
 		String bodyJSON = formatterJSON.getbodyJSON(contentFileString)
 		
-		def adjustApostrophe = formatterJSON.adjustApostrophe(bodyJSON)
-		def removeDash = formatterJSON.removeDash(adjustApostrophe)
-		println "BODY ${removeDash}"
+		String jsonString = formatterJSON.convertStringToJSON(bodyJSON)
 		
-		def jsonCommand = new JSONCommand(header: headerJSON,body: removeDash )
+		String out = formatterJSON.getSubstringJSON(jsonString)
+		(2).times {
+			out = formatterJSON.replaceWithExpressionRegulate(out,~/\\"/, '\"')
+		}
+		println "BODY ${out}"
+		
+		String prettyPrintJSON = formatterJSON.prettyPrintJSON(out)
+		
+		/*def adjustApostrophe = formatterJSON.adjustApostrophe(bodyJSON)
+		def removeDash = formatterJSON.removeDash(adjustApostrophe)
+		*/
+		
+		def jsonCommand = new JSONCommand(header: headerJSON,body: prettyPrintJSON )
 		
 		new FileManager().createFile(pathFile,jsonCommand)
+		
 		println  "FIN..."
 		
 	}
