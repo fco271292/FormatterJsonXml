@@ -1,6 +1,7 @@
 package com.fco271292.util
 
 import groovy.json.JsonOutput
+import java.util.regex.Pattern
 
 class FormatterJSON {
 	
@@ -37,25 +38,42 @@ class FormatterJSON {
 		
 		String outJSON = ""
 		String pattern = /",$/
-		String patternApostrophe = /\w*=\"[^\"]/
-		String patternDoubleApostrophe = /\\"/
+		String patternApostrophe = /.*=\"[^\",]/
+		String patternDoubleApostrophe = /\\+"/
 
 		jsonInput.eachLine {line->
-			if (line =~ pattern){
-				if(line.count("\"")>2 && line.count("\"")<10)
-					line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
+			if (line =~ patternDoubleApostrophe ){
+				line = line.replaceAll(patternDoubleApostrophe,"\"")
 			}
+			/*if (line =~ pattern){
+				//if(line.count("\"")>2 && line.count("\"")<10)
+					line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
+			}*/
 			else if(line.endsWith(":") && !line.startsWith("\""))
 				line = "\"${line.split(":").join("")}\":"
 			else if(line =~ patternApostrophe)
 				line = line.replaceAll("[^\"]\"","'")
-			if (line =~ patternDoubleApostrophe ){
-				line = line.replaceAll(patternDoubleApostrophe,"\"")				
-			}
+			
 			outJSON += line
 		}
 		outJSON
 		
+	}
+	
+	String convertStringToJSON(String jsonInput){
+		JsonOutput.toJson(jsonInput)
+	}
+	
+	String getSubstringJSON(String jsonInput){
+		jsonInput.substring(1, jsonInput.length()-1)
+	}
+	
+	String replaceWithExpressionRegulate(String line,Pattern pattern,String replacement){
+		line.replaceAll(~/${pattern}/, "${replacement}")
+	}
+	
+	String prettyPrintJSON(String jsonInput){
+		JsonOutput.prettyPrint(jsonInput)
 	}
 	
 }
