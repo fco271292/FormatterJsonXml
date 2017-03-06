@@ -5,12 +5,6 @@ import java.util.regex.Pattern
 
 class FormatterJSON {
 	
-	String formatterJSONPretty(String inputJSON){
-		
-		String json = JsonOutput.prettyPrint(inputJSON)
-		
-	}
-	
 	String getHeaderJSON(String inputJSON){
 		
 		String headerJSON = ""
