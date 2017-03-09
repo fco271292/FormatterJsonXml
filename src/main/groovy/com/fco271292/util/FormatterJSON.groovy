@@ -34,20 +34,34 @@ class FormatterJSON {
 		String pattern = /",$/
 		String patternApostrophe = /.*=\"[^\",]/
 		String patternDoubleApostrophe = /\\+"/
+		String patternSpaceCharacter = /\\f|\\n|\\r|\\t|\\v|-/
+		String patternKeyValue = /[^\"]\w*:\w*/
 
-		jsonInput.eachLine {line->
-			if (line =~ patternDoubleApostrophe ){
+		def json =jsonInput.split(",")
+		json.each {line->
+			line = "${line},"
+			if(line =~ patternSpaceCharacter){
+				line = line.replaceAll(patternSpaceCharacter,"")
+			}
+			if(line =~ patternKeyValue){
+				println line
+				println "*"*3
+			}
+			else{
+				//println line
+			}
+			/*if (line =~ patternDoubleApostrophe ){
 				line = line.replaceAll(patternDoubleApostrophe,"\"")
 			}
 			/*if (line =~ pattern){
 				//if(line.count("\"")>2 && line.count("\"")<10)
 					line = line.replaceAll(~/[^\"]\"[^,$]/ , "'")
-			}*/
+			}
 			else if(line.endsWith(":") && !line.startsWith("\""))
 				line = "\"${line.split(":").join("")}\":"
 			else if(line =~ patternApostrophe)
 				line = line.replaceAll("[^\"]\"","'")
-			
+			*/
 			outJSON += line
 		}
 		outJSON
@@ -63,7 +77,7 @@ class FormatterJSON {
 	}
 	
 	String replaceWithExpressionRegulate(String line,Pattern pattern,String replacement){
-		line.replaceAll(~/${pattern}/, "${replacement}")
+		line.replaceAll(pattern, "${replacement}")
 	}
 	
 	String prettyPrintJSON(String jsonInput){
